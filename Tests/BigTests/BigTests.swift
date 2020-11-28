@@ -1,15 +1,17 @@
 import XCTest
 @testable import Big
 
+
 final class BigTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(Big().text, "Hello, World!")
+    func testNumberDigitValueSet() {
+        do {
+            let _: Number.Digit.ValueSet = try .init(["a", "b", "c"])
+        } catch {
+            XCTFail("Init failed with error \(error)")
+        }
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testNumberDigitValueSet", testNumberDigitValueSet),
     ]
 }

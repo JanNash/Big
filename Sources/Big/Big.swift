@@ -13,14 +13,19 @@ class Number {
         }
         
         class ValueSet {
-            init(_ representations: [String]) {
+            enum InitError: Error {
+                case duplicateRepresentation(String)
+                case offsetOverflow
+            }
+            
+            init(_ representations: [String]) throws {
                 var offset: UInt = 0
-                values = representations.reduce(into: (values: [], dupeControlCache: [String: Any]()), {
-                    guard $0.dupeControlCache[$1] == nil else { fatalError() }
+                values = try representations.reduce(into: (values: [], dupeControlCache: [String: Any]()), {
+                    guard $0.dupeControlCache[$1] == nil else { throw InitError.duplicateRepresentation($1) }
                     $0.dupeControlCache[$1] = true
                     $0.values.append(Value(representation: $1, offset: offset))
                     let (newOffset, overflow) = offset.addingReportingOverflow(1)
-                    guard !overflow else { fatalError() }
+                    guard !overflow else { throw InitError.offsetOverflow }
                     offset = newOffset
                 }).values
             }
