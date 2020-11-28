@@ -8,8 +8,9 @@
 class Number {
     struct Digit: Hashable {
         struct Value: Equatable {
+            typealias Offset = UInt16
             private(set) var representation: String
-            private(set) var offset: UInt
+            private(set) var offset: Offset
         }
         
         class ValueSet {
@@ -19,7 +20,7 @@ class Number {
             }
             
             init(_ representations: [String]) throws {
-                var offset: UInt = 0
+                var offset: Value.Offset = 0
                 values = try representations.reduce(into: (values: [], dupeControlCache: [String: Any]()), {
                     guard $0.dupeControlCache[$1] == nil else { throw InitError.duplicateRepresentation($1) }
                     $0.dupeControlCache[$1] = true
