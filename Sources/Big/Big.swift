@@ -7,7 +7,7 @@
 
 class Number {
     struct Digit: Hashable {
-        struct Value {
+        struct Value: Equatable {
             private(set) var representation: String
             private(set) var offset: UInt
         }
